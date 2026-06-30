@@ -88,8 +88,11 @@ export function Dnd() {
         </motion.ol>
       </OverlayScrollbar>
       {isMobile && (
-        <div className="flex justify-center">
-          <span className="text-sm text-gray-500 text-center">左右滑动查看更多</span>
+        <div className="flex justify-center mt-2">
+          <span className="mobile-hint">
+            <span className="i-ph-arrows-left-right-duotone" aria-hidden="true" />
+            左右滑动查看更多
+          </span>
         </div>
       )}
     </DndWrapper>
@@ -137,34 +140,33 @@ function DndWrapper({ items, setItems, isSingleColumn, sortable, children }: Pro
 function CardOverlay({ id }: { id: SourceID }) {
   return (
     <div className={$(
-      "flex flex-col p-4 backdrop-blur-5",
-      `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-40!`,
-      !isiOS() && "rounded-2xl",
+      "news-card-shell flex flex-col p-3 backdrop-blur-5",
+      `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-12! dark:bg-op-18!`,
+      !isiOS() && "rounded-xl",
     )}
     >
-      <div className={$("flex justify-between mx-2 items-center")}>
+      <div className="news-card-head flex justify-between gap-3 mx-1 items-center">
         <div className="flex gap-2 items-center">
           <div
-            className={$("w-8 h-8 rounded-full bg-cover")}
+            className="source-avatar"
             style={{
               backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
             }}
           />
           <span className="flex flex-col">
             <span className="flex items-center gap-2">
-              <span className="text-xl font-bold">
+              <span className="source-name">
                 {sources[id].name}
               </span>
-              {sources[id]?.title && <span className={$("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
+              {sources[id]?.title && <span className={$("source-label", `color-${sources[id].color}`)}>{sources[id].title}</span>}
             </span>
-            <span className="text-xs op-70">拖拽中</span>
+            <span className="source-updated">正在调整顺序</span>
           </span>
         </div>
-        <div className={$("flex gap-2 text-lg", `color-${sources[id].color}`)}>
-          <button
-            type="button"
-            className={$("i-ph:dots-six-vertical-duotone", "cursor-grabbing")}
-          />
+        <div className={$("card-actions", `color-${sources[id].color}`)}>
+          <span className="card-action cursor-grabbing">
+            <span className="i-ph-dots-six-vertical-duotone" />
+          </span>
         </div>
       </div>
     </div>
@@ -181,7 +183,7 @@ function SortableCardWrapper({ id, sortable }: ItemsProps & { sortable: boolean 
 
   useEffect(() => {
     if (OverlayContainer) {
-      OverlayContainer!.className += $(`bg-base`, !isiOS() && "rounded-2xl")
+      OverlayContainer!.className += $(`bg-base`, !isiOS() && "rounded-xl")
     }
   }, [OverlayContainer])
 

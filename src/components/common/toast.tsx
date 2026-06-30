@@ -78,8 +78,8 @@ function Item({ info }: { info: ToastItem }) {
       >
         {
           hoverd
-            ? <button type="button" className={`i-ph:x-circle color-${color}-500 i-ph:info`} onClick={() => hidden(false)} />
-            : <span className={`i-ph:info color-${color}-500 `} />
+            ? <button type="button" className={`i-ph-x-circle color-${color}-500 i-ph-info`} onClick={() => hidden(false)} />
+            : <span className={`i-ph-info color-${color}-500 `} />
         }
         <div className="flex justify-between w-full">
           <span className="op-90 dark:op-100">

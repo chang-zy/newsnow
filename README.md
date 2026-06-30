@@ -2,6 +2,10 @@
 
 English | [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
+# NowDesk
+
+Personal UI edition of NewsNow for `chang-zy/newsnow`. This fork keeps the original data-source architecture while giving the reading interface, favicon, PWA metadata, and social preview its own visual identity.
+
 > [!NOTE]
 > This is a demo version currently supporting Chinese only. A full-featured version with better customization and English content support will be released later.
 
@@ -26,7 +30,7 @@ English | [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
         "newsnow-mcp-server"
       ],
       "env": {
-        "BASE_URL": "https://newsnow.busiyi.world"
+        "BASE_URL": "https://your-domain.com"
       }
     }
   }
@@ -115,9 +119,6 @@ For detailed instructions on how to add new sources, see [CONTRIBUTING.md](CONTR
 - Improve **personalization options** (category-based news, saved preferences).
 - Expand **data sources** to cover global news in multiple languages.
 
-**_release when ready_**
-![](https://testmnbbs.oss-cn-zhangjiakou.aliyuncs.com/pic/20250328172146_rec_.gif?x-oss-process=base_webp)
-
 ## Contributing
 
 Contributions are welcome! Feel free to submit pull requests or create issues for feature requests and bug reports.
@@ -126,4 +127,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to contrib
 
 ## License
 
-[MIT](./LICENSE) © ourongxing
+[MIT](./LICENSE)

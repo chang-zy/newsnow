@@ -2,6 +2,10 @@
 
 [English](./README.md) | [简体中文](README.zh-CN.md) | 日本語
 
+# NowDesk
+
+Personal UI edition for `chang-zy/newsnow`. This fork keeps the original data-source architecture while giving the reading interface, favicon, PWA metadata, and social preview its own visual identity.
+
 > [!NOTE]
 > 本バージョンはデモ版であり、現在中国語のみ対応しています。カスタマイズ機能や英語コンテンツをサポートした正式版は後日リリース予定です。
 
@@ -25,7 +29,7 @@
         "newsnow-mcp-server"
       ],
       "env": {
-        "BASE_URL": "https://newsnow.busiyi.world"
+        "BASE_URL": "https://your-domain.com"
       }
     }
   }
@@ -104,4 +108,4 @@ pnpm dev
 コントリビューションを歓迎します！機能リクエストやバグレポートのために、プルリクエストやイシューの作成をお気軽にどうぞ。
 
 ## ライセンス
-MIT © ourongxing
+MIT

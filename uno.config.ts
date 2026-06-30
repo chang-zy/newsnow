@@ -1,6 +1,18 @@
 import { defineConfig, presetIcons, presetWind3, transformerDirectives, transformerVariantGroup } from "unocss"
 import { hex2rgba } from "@unocss/rule-utils"
+import phIcons from "@iconify-json/ph/icons.json"
+import siIcons from "@iconify-json/si/icons.json"
 import { sources } from "./shared/sources"
+
+function iconLoader(iconSet: any) {
+  return (name: string) => {
+    const icon = iconSet.icons?.[name]
+    if (!icon) return
+    const width = icon.width ?? iconSet.width ?? 256
+    const height = icon.height ?? iconSet.height ?? 256
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}">${icon.body}</svg>`
+  }
+}
 
 export default defineConfig({
   mergeSelectors: false,
@@ -8,6 +20,10 @@ export default defineConfig({
   presets: [
     presetWind3(),
     presetIcons({
+      collections: {
+        ph: iconLoader(phIcons),
+        si: iconLoader(siIcons),
+      },
       scale: 1.2,
     }),
   ],
@@ -31,9 +47,9 @@ export default defineConfig({
     ],
   ],
   shortcuts: {
-    "color-base": "color-neutral-800 dark:color-neutral-300",
-    "bg-base": "bg-zinc-200 dark:bg-dark-600",
-    "btn": "op50 hover:op85 cursor-pointer transition-all",
+    "color-base": "color-zinc-900 dark:color-zinc-100",
+    "bg-base": "bg-stone-50 dark:bg-neutral-950",
+    "btn": "op65 hover:op100 cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45",
   },
   safelist: [
     ...["orange", ...new Set(Object.values(sources).map(k => k.color))].map(k =>
@@ -43,7 +59,7 @@ export default defineConfig({
   ],
   extendTheme: (theme) => {
     // @ts-expect-error >_<
-    theme.colors.primary = theme.colors.red
+    theme.colors.primary = theme.colors.teal
     return theme
   },
 })

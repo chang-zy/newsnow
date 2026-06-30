@@ -9,6 +9,34 @@ body,
   padding: 0;
 }
 
+:root {
+  --nn-canvas: #eef4f0;
+  --nn-canvas-soft: #f8fbf8;
+  --nn-ink: #17231f;
+  --nn-muted: #66736c;
+  --nn-surface: rgba(255, 255, 255, 0.78);
+  --nn-surface-strong: rgba(255, 255, 255, 0.94);
+  --nn-border: rgba(28, 69, 57, 0.14);
+  --nn-border-strong: rgba(28, 69, 57, 0.24);
+  --nn-accent: #0f7b63;
+  --nn-accent-warm: #d8912e;
+  --nn-shadow: 0 24px 80px rgba(29, 57, 48, 0.13);
+}
+
+html.dark {
+  --nn-canvas: #0f1513;
+  --nn-canvas-soft: #151d1a;
+  --nn-ink: #eef6f2;
+  --nn-muted: #97a69f;
+  --nn-surface: rgba(24, 32, 29, 0.76);
+  --nn-surface-strong: rgba(23, 31, 28, 0.94);
+  --nn-border: rgba(198, 223, 213, 0.14);
+  --nn-border-strong: rgba(198, 223, 213, 0.25);
+  --nn-accent: #32b694;
+  --nn-accent-warm: #f2b44b;
+  --nn-shadow: 0 28px 90px rgba(0, 0, 0, 0.36);
+}
+
 @font-face {
   font-family: 'Baloo 2';
   src: url("/Baloo2-Bold.subset.ttf");
@@ -20,10 +48,23 @@ html.dark {
 }
 
 body {
-  --at-apply: color-base bg-base sprinkle-primary text-base;
+  --at-apply: color-base bg-base text-base antialiased;
+  background:
+    linear-gradient(90deg, rgba(15, 123, 99, 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15, 123, 99, 0.05) 1px, transparent 1px),
+    linear-gradient(135deg, var(--nn-canvas-soft), var(--nn-canvas) 58%, #edf4f6);
+  background-size: 56px 56px, 56px 56px, auto;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+html.dark body {
+  background:
+    linear-gradient(90deg, rgba(50, 182, 148, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(50, 182, 148, 0.06) 1px, transparent 1px),
+    linear-gradient(135deg, var(--nn-canvas-soft), var(--nn-canvas) 62%, #111827);
+  background-size: 56px 56px, 56px 56px, auto;
 }
 
 button:disabled {
@@ -49,10 +90,295 @@ button:disabled {
 }
 
 #dropdown-menu li {
-  --at-apply: hover:bg-neutral-400/10 rounded-md flex items-center p-1 gap-1;
+  --at-apply: hover:bg-primary/10 rounded-lg flex items-center px-2 py-2 gap-2 cursor-pointer transition-colors;
 }
 
 
 .grabbing * {
   cursor: grabbing;
+}
+
+.app-shell {
+  color: var(--nn-ink);
+}
+
+.app-header {
+  border: 1px solid var(--nn-border);
+  border-radius: 18px;
+  background: var(--nn-surface);
+  box-shadow: var(--nn-shadow);
+}
+
+.brand-lockup {
+  --at-apply: flex items-center gap-3 min-w-0 cursor-pointer;
+}
+
+.brand-lockup * {
+  cursor: pointer;
+}
+
+.brand-mark {
+  --at-apply: h-11 w-11 flex items-center justify-center shrink-0;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: 14px;
+  color: white;
+  background:
+    linear-gradient(135deg, rgba(15, 123, 99, 0.95), rgba(216, 145, 46, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 10px 28px rgba(15, 123, 99, 0.22);
+}
+
+.brand-copy {
+  --at-apply: flex flex-col min-w-0;
+}
+
+.brand-kicker {
+  --at-apply: text-[10px] font-mono uppercase tracking-[0.22em] color-primary;
+}
+
+.brand-title {
+  --at-apply: text-2xl font-brand line-height-none tracking-normal whitespace-nowrap;
+}
+
+.brand-title strong {
+  color: var(--nn-accent-warm);
+  font-weight: 800;
+}
+
+.version-pill {
+  --at-apply: hidden sm:inline-flex items-center rounded-full px-2 py-1 text-xs font-mono transition-colors;
+  border: 1px solid var(--nn-border);
+  color: var(--nn-muted);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+html.dark .version-pill {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.action-cluster {
+  --at-apply: justify-self-end flex gap-1.5 items-center text-xl;
+  color: var(--nn-accent);
+}
+
+.icon-btn {
+  --at-apply: h-9 w-9 inline-flex items-center justify-center rounded-xl;
+  background-color: color-mix(in srgb, var(--nn-accent) 10%, transparent);
+}
+
+.nav-rail {
+  --at-apply: flex items-center gap-1 rounded-2xl p-1.5 text-sm;
+  border: 1px solid var(--nn-border);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+html.dark .nav-rail {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-item {
+  --at-apply: inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 cursor-pointer transition-all whitespace-nowrap;
+  color: var(--nn-muted);
+}
+
+.nav-item * {
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: var(--nn-ink);
+  background: color-mix(in srgb, var(--nn-accent) 10%, transparent);
+}
+
+.nav-item-active {
+  color: var(--nn-accent);
+  background: color-mix(in srgb, var(--nn-accent) 14%, white 20%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nn-accent) 18%, transparent);
+}
+
+html.dark .nav-item-active {
+  background: color-mix(in srgb, var(--nn-accent) 18%, transparent);
+}
+
+.news-card-shell {
+  border: 1px solid var(--nn-border);
+  box-shadow: 0 18px 48px rgba(27, 46, 39, 0.12);
+  backdrop-filter: blur(18px);
+}
+
+html.dark .news-card-shell {
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.26);
+}
+
+.news-card-head {
+  min-height: 44px;
+}
+
+.source-avatar {
+  --at-apply: w-9 h-9 rounded-xl bg-cover shrink-0;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 22px rgba(20, 35, 30, 0.12);
+}
+
+html.dark .source-avatar {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.source-name {
+  --at-apply: text-lg font-700 tracking-normal line-height-tight;
+}
+
+.source-label {
+  --at-apply: text-xs px-1.5 py-0.5 rounded-md font-500;
+  background: color-mix(in srgb, var(--nn-surface-strong) 72%, transparent);
+}
+
+.source-updated {
+  --at-apply: text-xs;
+  color: var(--nn-muted);
+}
+
+.card-actions {
+  --at-apply: flex gap-1 text-lg;
+}
+
+.card-action {
+  --at-apply: btn h-8 w-8 rounded-lg;
+  background-color: rgba(255, 255, 255, 0.36);
+}
+
+html.dark .card-action {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.news-card-body {
+  --at-apply: h-full overflow-y-auto rounded-xl p-2;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: color-mix(in srgb, var(--nn-surface-strong) 78%, transparent);
+}
+
+html.dark .news-card-body {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(8, 12, 11, 0.34);
+}
+
+.news-card-state {
+  --at-apply: h-full min-h-64 flex flex-col items-center justify-center gap-2 rounded-lg text-sm;
+  color: var(--nn-muted);
+}
+
+.state-action {
+  --at-apply: mt-1 rounded-full px-3 py-1 text-xs font-600 cursor-pointer transition-colors;
+  color: var(--nn-accent);
+  border: 1px solid var(--nn-border-strong);
+  background: color-mix(in srgb, var(--nn-accent) 8%, transparent);
+}
+
+.state-action:hover {
+  background: color-mix(in srgb, var(--nn-accent) 14%, transparent);
+}
+
+.news-list-hot {
+  --at-apply: flex flex-col gap-1.5;
+}
+
+.news-row {
+  --at-apply: relative flex gap-2 rounded-lg px-1.5 py-1.5 cursor-pointer transition-colors;
+}
+
+.news-row:hover {
+  background: color-mix(in srgb, var(--nn-accent) 10%, transparent);
+}
+
+.news-row * {
+  cursor: pointer;
+}
+
+.rank-badge {
+  --at-apply: min-w-7 h-7 flex justify-center items-center rounded-lg text-sm font-mono shrink-0;
+  color: var(--nn-muted);
+  background: rgba(23, 35, 31, 0.06);
+}
+
+html.dark .rank-badge {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.rank-badge-top {
+  color: #fff;
+  background: linear-gradient(135deg, var(--nn-accent), var(--nn-accent-warm));
+}
+
+.news-title {
+  --at-apply: text-[15px] line-height-snug;
+}
+
+.news-extra {
+  --at-apply: text-xs truncate align-middle;
+  color: var(--nn-muted);
+}
+
+.timeline-list {
+  --at-apply: flex flex-col gap-1.5 ml-1;
+  border-left: 1px solid var(--nn-border-strong);
+}
+
+.timeline-meta {
+  --at-apply: flex items-center gap-1 text-xs ml--1px;
+  color: var(--nn-muted);
+}
+
+.timeline-dot {
+  --at-apply: inline-block h-1.5 w-1.5 rounded-full;
+  background: var(--nn-accent);
+  transform: translateX(-3px);
+}
+
+.timeline-link {
+  --at-apply: ml-3 rounded-lg px-2 py-1 cursor-pointer transition-colors;
+}
+
+.timeline-link:hover {
+  background: color-mix(in srgb, var(--nn-accent) 10%, transparent);
+}
+
+.mobile-hint {
+  --at-apply: inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-mono;
+  color: var(--nn-muted);
+  border: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+}
+
+@media (max-width: 520px) {
+  .brand-kicker,
+  .version-pill {
+    display: none;
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+  }
+
+  .brand-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 12px;
+  }
+
+  .action-cluster {
+    gap: 0.125rem;
+  }
+
+  .icon-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 10px;
+  }
+
+  .nav-rail {
+    --at-apply: w-full justify-between gap-0 p-1;
+  }
+
+  .nav-item {
+    --at-apply: min-w-13 flex-col gap-1 px-2 py-2 text-xs line-height-none;
+  }
 }

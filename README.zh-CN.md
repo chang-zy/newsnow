@@ -2,6 +2,10 @@
 
 [English](./README.md) | 简体中文 | [日本語](README.ja-JP.md)
 
+# NowDesk
+
+这是 `chang-zy/newsnow` 的个人 UI 版本：保留原项目的数据源和部署方式，同时重做阅读界面、站点图标、PWA 元信息和分享预览，让 fork 后的站点有自己的视觉辨识度。
+
 ***优雅地阅读实时热门新闻***
 
 > [!NOTE]
@@ -25,7 +29,7 @@
         "newsnow-mcp-server"
       ],
       "env": {
-        "BASE_URL": "https://newsnow.busiyi.world"
+        "BASE_URL": "https://your-domain.com"
       }
     }
   }
@@ -104,11 +108,4 @@ pnpm dev
 
 ## License
 
-[MIT](./LICENSE) © ourongxing
-
-## 赞赏
-如果本项目对你有所帮助，可以给小猫买点零食。如果需要定制或者其他帮助，请通过下列方式联系备注。
-
-![](./screenshots/reward.gif)
-
-<a href="https://hellogithub.com/repository/c2978695e74a423189e9ca2543ab3b36" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=c2978695e74a423189e9ca2543ab3b36&claim_uid=SMJiFwlsKCkWf89&theme=small" alt="Featured｜HelloGitHub" /></a>
+[MIT](./LICENSE)

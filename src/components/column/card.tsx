@@ -33,11 +33,10 @@ export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging
     <div
       ref={ref}
       className={$(
-        "flex flex-col h-500px rounded-2xl p-4 cursor-default",
-        // "backdrop-blur-5",
-        "transition-opacity-300",
+        "news-card-shell flex flex-col h-500px rounded-xl p-3 cursor-default",
+        "transition-all duration-300",
         isDragging && "op-50",
-        `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-40!`,
+        `bg-${sources[id].color}-500 dark:bg-${sources[id].color} bg-op-12! dark:bg-op-18!`,
       )}
       style={{
         transformOrigin: "50% 50%",
@@ -106,11 +105,12 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
 
   return (
     <>
-      <div className={$("flex justify-between mx-2 mt-0 mb-2 items-center")}>
+      <div className="news-card-head flex justify-between gap-3 mx-1 mt-0 mb-3 items-center">
         <div className="flex gap-2 items-center">
           <a
-            className={$("w-8 h-8 rounded-full bg-cover")}
+            className="source-avatar"
             target="_blank"
+            rel="noopener noreferrer"
             href={sources[id].home}
             title={sources[id].desc}
             style={{
@@ -120,42 +120,52 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
           <span className="flex flex-col">
             <span className="flex items-center gap-2">
               <span
-                className="text-xl font-bold"
+                className="source-name"
                 title={sources[id].desc}
               >
                 {sources[id].name}
               </span>
-              {sources[id]?.title && <span className={$("text-sm", `color-${sources[id].color} bg-base op-80 bg-op-50! px-1 rounded`)}>{sources[id].title}</span>}
+              {sources[id]?.title && <span className={$("source-label", `color-${sources[id].color}`)}>{sources[id].title}</span>}
             </span>
-            <span className="text-xs op-70"><UpdatedTime isError={isError} updatedTime={data?.updatedTime} /></span>
+            <span className="source-updated"><UpdatedTime isError={isError} updatedTime={data?.updatedTime} /></span>
           </span>
         </div>
-        <div className={$("flex gap-2 text-lg", `color-${sources[id].color}`)}>
+        <div className={$("card-actions", `color-${sources[id].color}`)}>
           <button
             type="button"
-            className={$("btn i-ph:arrow-counter-clockwise-duotone", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
+            title="刷新"
+            aria-label={`刷新 ${sources[id].name}`}
+            className="card-action"
             onClick={() => refresh(id)}
-          />
+          >
+            <span className={$(isFetching ? "animate-spin i-ph-circle-dashed-duotone" : "i-ph-arrow-counter-clockwise-duotone")} />
+          </button>
           <button
             type="button"
-            className={$("btn", isFocused ? "i-ph:star-fill" : "i-ph:star-duotone")}
+            title={isFocused ? "取消关注" : "关注"}
+            aria-label={`${isFocused ? "取消关注" : "关注"} ${sources[id].name}`}
+            className="card-action"
             onClick={toggleFocus}
-          />
+          >
+            <span className={$(isFocused ? "i-ph-star-fill" : "i-ph-star-duotone")} />
+          </button>
           {/* firefox cannot drag a button */}
           {setHandleRef && (
             <div
               ref={setHandleRef}
-              className={$("btn", "i-ph:dots-six-vertical-duotone", "cursor-grab")}
-            />
+              title={`拖拽排序 ${sources[id].name}`}
+              className="card-action cursor-grab"
+            >
+              <span className="i-ph-dots-six-vertical-duotone" />
+            </div>
           )}
         </div>
       </div>
 
       <OverlayScrollbar
         className={$([
-          "h-full p-2 overflow-y-auto rounded-2xl bg-base bg-op-70!",
+          "news-card-body",
           isFetching && `animate-pulse`,
-          `sprinkle-${sources[id].color}`,
         ])}
         options={{
           overflow: { x: "hidden" },
@@ -164,9 +174,38 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
       >
         <div className={$("transition-opacity-500", isFetching && "op-20")}>
           {!!data?.items?.length && (sources[id].type === "hottest" ? <NewsListHot items={data.items} /> : <NewsListTimeLine items={data.items} />)}
+          {!data?.items?.length && <NewsCardState isError={isError} isFetching={isFetching} sourceName={sources[id].name} onRefresh={() => refresh(id)} />}
         </div>
       </OverlayScrollbar>
     </>
+  )
+}
+
+function NewsCardState({ isError, isFetching, sourceName, onRefresh }: { isError: boolean, isFetching: boolean, sourceName: string, onRefresh: () => void }) {
+  if (isFetching) {
+    return (
+      <div className="news-card-state" role="status">
+        <span className="i-ph-circle-dashed-duotone animate-spin text-2xl" />
+        <span>正在获取 {sourceName}</span>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="news-card-state" role="status">
+        <span className="i-ph-warning-circle-duotone text-2xl" />
+        <span>获取失败</span>
+        <button type="button" className="state-action" onClick={onRefresh}>重新获取</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="news-card-state" role="status">
+      <span className="i-ph-tray-duotone text-2xl" />
+      <span>暂无内容</span>
+    </div>
   )
 }
 
@@ -229,27 +268,27 @@ function NewsUpdatedTime({ date }: { date: string | number }) {
 function NewsListHot({ items }: { items: NewsItem[] }) {
   const { width } = useWindowSize()
   return (
-    <ol className="flex flex-col gap-2">
+    <ol className="news-list-hot">
       {items?.map((item, i) => (
         <a
           href={width < 768 ? item.mobileUrl || item.url : item.url}
           target="_blank"
+          rel="noopener noreferrer"
           key={item.id}
           title={item.extra?.hover}
           className={$(
-            "flex gap-2 items-center items-stretch relative cursor-pointer [&_*]:cursor-pointer transition-all",
-            "hover:bg-neutral-400/10 rounded-md pr-1 visited:(text-neutral-400)",
+            "news-row items-stretch visited:(text-neutral-400)",
           )}
         >
-          <span className={$("bg-neutral-400/10 min-w-6 flex justify-center items-center rounded-md text-sm")}>
+          <span className={$("rank-badge", i < 3 && "rank-badge-top")}>
             {i + 1}
           </span>
           {!!item.extra?.diff && <DiffNumber diff={item.extra.diff} />}
-          <span className="self-start line-height-none">
-            <span className="mr-2 text-base">
+          <span className="self-start line-height-none min-w-0">
+            <span className="news-title mr-2">
               {item.title}
             </span>
-            <span className="text-xs text-neutral-400/80 truncate align-middle">
+            <span className="news-extra">
               <ExtraInfo item={item} />
             </span>
           </span>
@@ -262,22 +301,21 @@ function NewsListHot({ items }: { items: NewsItem[] }) {
 function NewsListTimeLine({ items }: { items: NewsItem[] }) {
   const { width } = useWindowSize()
   return (
-    <ol className="border-s border-neutral-400/50 flex flex-col ml-1">
+    <ol className="timeline-list">
       {items?.map(item => (
         <li key={`${item.id}-${item.pubDate || item?.extra?.date || ""}`} className="flex flex-col">
-          <span className="flex items-center gap-1 text-neutral-400/50 ml--1px">
-            <span className="">-</span>
-            <span className="text-xs text-neutral-400/80">
+          <span className="timeline-meta">
+            <span className="timeline-dot" />
+            <span>
               {(item.pubDate || item?.extra?.date) && <NewsUpdatedTime date={(item.pubDate || item?.extra?.date)!} />}
             </span>
-            <span className="text-xs text-neutral-400/80">
+            <span>
               <ExtraInfo item={item} />
             </span>
           </span>
           <a
             className={$(
-              "ml-2 px-1 hover:bg-neutral-400/10 rounded-md visited:(text-neutral-400/80)",
-              "cursor-pointer [&_*]:cursor-pointer transition-all",
+              "timeline-link visited:(text-neutral-400/80)",
             )}
             href={width < 768 ? item.mobileUrl || item.url : item.url}
             title={item.extra?.hover}

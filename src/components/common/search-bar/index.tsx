@@ -83,12 +83,12 @@ export function SearchBar() {
       <Command.Input
         ref={inputRef}
         autoFocus
-        placeholder="搜索你想要的"
+        placeholder="搜索信号源、站点或拼音"
       />
       <div className="md:flex pt-2">
         <OverlayScrollbar defer className="overflow-y-auto md:min-w-275px">
           <Command.List>
-            <Command.Empty> 没有找到，可以前往 Github 提 issue </Command.Empty>
+            <Command.Empty>没有找到匹配的新闻源</Command.Empty>
             {
               sourceItems.map(({ column, sources }) => (
                 <Command.Group heading={column} key={column}>
@@ -122,7 +122,7 @@ function SourceItem({ item }: {
     >
       <span className="flex gap-2 items-center">
         <span
-          className={$("w-4 h-4 rounded-md bg-cover")}
+          className={$("w-5 h-5 rounded-lg bg-cover")}
           style={{
             backgroundImage: `url(/icons/${item.id.split("-")[0]}.png)`,
           }}
@@ -130,7 +130,7 @@ function SourceItem({ item }: {
         <span>{item.name}</span>
         <span className="text-xs text-neutral-400/80 self-end mb-3px">{item.title}</span>
       </span>
-      <span className={$(isFocused ? "i-ph-star-fill" : "i-ph-star-duotone", "bg-primary op-40")}></span>
+      <span className={$(isFocused ? "i-ph-star-fill" : "i-ph-star-duotone", "bg-primary op-55")}></span>
     </Command.Item>
   )
 }

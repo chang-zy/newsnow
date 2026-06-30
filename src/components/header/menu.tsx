@@ -23,7 +23,8 @@ export function Menu() {
             ? (
                 <button
                   type="button"
-                  className="h-6 w-6 rounded-full bg-cover"
+                  aria-label="打开菜单"
+                  className="h-8 w-8 rounded-xl bg-cover"
                   style={
                     {
                       backgroundImage: `url(${userInfo.avatar}&s=24)`,
@@ -32,7 +33,11 @@ export function Menu() {
                 >
                 </button>
               )
-            : <button type="button" className="btn i-si:more-muted-horiz-circle-duotone" />
+            : (
+                <button type="button" aria-label="打开菜单" className="btn icon-btn">
+                  <span className="i-si-more-muted-horiz-circle-duotone" />
+                </button>
+              )
         }
       </span>
       {shown && (
@@ -40,9 +45,14 @@ export function Menu() {
           <motion.div
             id="dropdown-menu"
             className={$([
-              "w-200px",
-              "bg-primary backdrop-blur-5 bg-op-70! rounded-lg shadow-xl",
+              "w-220px",
+              "backdrop-blur-5 rounded-2xl",
             ])}
+            style={{
+              border: "1px solid var(--nn-border-strong)",
+              background: "var(--nn-surface-strong)",
+              boxShadow: "var(--nn-shadow)",
+            }}
             initial={{
               scale: 0.9,
             }}
@@ -50,42 +60,28 @@ export function Menu() {
               scale: 1,
             }}
           >
-            <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-lg color-base text-base">
+            <ol className="p-2 rounded-2xl color-base text-sm">
               {enableLogin && (loggedIn
                 ? (
-                    <li onClick={logout}>
-                      <span className="i-ph:sign-out-duotone inline-block" />
+                  <li onClick={logout}>
+                      <span className="i-ph-sign-out-duotone inline-block" />
                       <span>退出登录</span>
                     </li>
                   )
                 : (
                     <li onClick={login}>
-                      <span className="i-ph:sign-in-duotone inline-block" />
+                      <span className="i-ph-sign-in-duotone inline-block" />
                       <span>Github 账号登录</span>
                     </li>
                   ))}
               {/* <ThemeToggle /> */}
               <li onClick={() => window.open(Homepage)} className="cursor-pointer [&_*]:cursor-pointer transition-all">
-                <span className="i-ph:github-logo-duotone inline-block" />
-                <span>Star on Github </span>
+                <span className="i-ph-github-logo-duotone inline-block" />
+                <span>项目仓库</span>
               </li>
-              <li className="flex gap-2 items-center">
-                <a
-                  href="https://github.com/ourongxing/newsnow"
-                >
-                  <img
-                    alt="GitHub stars badge"
-                    src="https://img.shields.io/github/stars/ourongxing/newsnow?logo=github&style=flat&labelColor=%235e3c40&color=%23614447"
-                  />
-                </a>
-                <a
-                  href="https://github.com/ourongxing/newsnow/fork"
-                >
-                  <img
-                    alt="GitHub forks badge"
-                    src="https://img.shields.io/github/forks/ourongxing/newsnow?logo=github&style=flat&labelColor=%235e3c40&color=%23614447"
-                  />
-                </a>
+              <li onClick={() => window.open(`${Homepage}/releases/tag/v${Version}`)} className="cursor-pointer [&_*]:cursor-pointer transition-all">
+                <span className="i-ph-tag-duotone inline-block" />
+                <span>{`当前版本 v${Version}`}</span>
               </li>
             </ol>
           </motion.div>

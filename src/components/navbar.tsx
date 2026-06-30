@@ -2,24 +2,29 @@ import { fixedColumnIds, metadata } from "@shared/metadata"
 import { Link } from "@tanstack/react-router"
 import { currentColumnIDAtom } from "~/atoms"
 
+const columnIcons = {
+  focus: "i-ph-star-duotone",
+  hottest: "i-ph-flame-duotone",
+  realtime: "i-ph-broadcast-duotone",
+  updated: "i-ph-clock-counter-clockwise-duotone",
+} as const
+
 export function NavBar() {
   const currentId = useAtomValue(currentColumnIDAtom)
   const { toggle } = useSearchBar()
   return (
-    <span className={$([
-      "flex p-3 rounded-2xl bg-primary/1 text-sm",
-      "shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow-500",
-    ])}
+    <span
+      role="navigation"
+      aria-label="新闻频道"
+      className="nav-rail"
     >
       <button
         type="button"
         onClick={() => toggle(true)}
-        className={$(
-          "px-2 hover:(bg-primary/10 rounded-md) op-70 dark:op-90",
-          "cursor-pointer transition-all",
-        )}
+        className="nav-item"
       >
-        更多
+        <span className="i-ph-magnifying-glass-duotone" aria-hidden="true" />
+        <span>更多</span>
       </button>
       {fixedColumnIds.map(columnId => (
         <Link
@@ -27,10 +32,11 @@ export function NavBar() {
           to="/c/$column"
           params={{ column: columnId }}
           className={$(
-            "px-2 hover:(bg-primary/10 rounded-md) cursor-pointer transition-all",
-            currentId === columnId ? "color-primary font-bold" : "op-70 dark:op-90",
+            "nav-item",
+            currentId === columnId && "nav-item-active font-700",
           )}
         >
+          <span className={columnIcons[columnId]} aria-hidden="true" />
           {metadata[columnId].name}
         </Link>
       ))}
