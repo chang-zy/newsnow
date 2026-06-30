@@ -26,17 +26,13 @@ export function usePWA() {
 
       if ("connection" in navigator && !navigator.onLine) return
 
-      const resp = await myFetch("/latest")
-
-      if (resp.v && resp.v !== Version) {
-        toaster("有更新，5 秒后自动更新", {
-          action: {
-            label: "立刻更新",
-            onClick: update,
-          },
-          onDismiss: update,
-        })
-      }
+      toaster("有更新，5 秒后自动更新", {
+        action: {
+          label: "立刻更新",
+          onClick: update,
+        },
+        onDismiss: update,
+      })
     }
   })
 }
